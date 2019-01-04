@@ -26,3 +26,20 @@ set :puma_workers, 0
 set :puma_worker_timeout, nil
 set :puma_init_active_record, true
 set :puma_preload_app, false
+
+namespace :deploy do
+  after :restart, :clear_cache do
+    on roles(:web), in: :groups, limit: 3, wait: 10 do
+    end
+  end
+  # task :seed do
+  #  puts "\n=== Seeding Database ===\n"
+  #  on primary :db do
+  #   within current_path do
+  #     with rails_env: fetch(:stage) do
+  #       execute :rake, 'db:seed'
+  #     end
+  #   end
+  #  end
+  # end
+end
